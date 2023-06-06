@@ -7,3 +7,6 @@ altair
 Pillow
 joblib
 pickle
+nltk
+requests
+Sastrawi
