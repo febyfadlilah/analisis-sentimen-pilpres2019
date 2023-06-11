@@ -49,10 +49,15 @@ def preprocess_data(text):
 
     return text
 
+# Load the selection features from the pickle file
+with open('selected_features.pickle', 'rb') as file:
+    selected_features = pickle.load(file)
+
 # Function to train the SVM model
 def train_svm(X_train, y_train, test_size, kernel):
     vectorizer = TfidfVectorizer(tokenizer=preprocess_data)
     X_train = vectorizer.fit_transform(X_train)
+    X_train = X_train[selected_features]
     X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=test_size, random_state=42)
     clf = svm.SVC(kernel=kernel)
     clf.fit(X_train, y_train)
@@ -75,7 +80,7 @@ y_train = data['Label']
 with open('best_params.pkl', 'rb') as file:
     best_params = pickle.load(file)
 
-best = best_params[1]
+best = best_params[0]
 
 # Ambil parameter terbaik
 best_test_size = best[0]
