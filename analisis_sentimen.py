@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import requests
+# import requests
 import io
 import string
 import re
@@ -69,13 +69,14 @@ y_train = data['Label']
 vectorizer = TfidfVectorizer(tokenizer=preprocess_data, vocabulary=selected_features)
 X_train = vectorizer.fit_transform(X_train)
 
-# Train the SVM model
-clf = svm.SVC()
-clf.fit(X_train, y_train)
 
 # Save the trained model to a pickle file
-with open('svm_model.pickle', 'wb') as file:
-    pickle.dump(clf, file)
+with open('svm_model.pickle', 'rb') as file:
+    clf = pickle.load(file)
+
+# Train the SVM model
+clf.fit(X_train, y_train)
+
 
 # Streamlit app title
 st.title('Analisis Sentimen Tweets Pilpres 2019')
